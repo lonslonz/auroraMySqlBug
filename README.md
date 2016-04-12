@@ -15,16 +15,20 @@ MySQL Version is :
     version()
     5.7.10-log
     
-After I migrated MySQL 5.7 to Aurora, the query became so slow. It took 1 ~ 2 secs. The plan is not normal. Index isn't used.
+After I migrated MySQL 5.7 to Aurora, the query became so slow. It took 1 ~ 2 secs. The plan was not normal. Index wasn't used.
 
     id select_type table type possible_keys key key_len ref rows Extra
     -------------------
     1 SIMPLE PRODUCT ALL NULL NULL NULL NULL 1475470 Using where
     
-The hint of index MySQL doesn't work. It's plan is the same.
+The index hint of MySQL doesn't work. The plan can't use index.
 
     explain
     select * from PRODUCT FORCE key (product) where (product_id, product_type) in ((1, 'p'), (2, 'd'));
+    
+    id select_type table type possible_keys key key_len ref rows Extra
+    -------------------
+    1 SIMPLE PRODUCT ALL NULL NULL NULL NULL 1475470 Using where
     
 Aurora supports only MySQL 5.6.x, not 5.7.x now. The MySQL version of Aurora's write instance and read instance are the same, 5.6.10
 

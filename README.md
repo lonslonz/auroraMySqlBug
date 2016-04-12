@@ -1,11 +1,10 @@
 # Aws Aurora's bug - selecting multiple columns in select-where-in clause.
 
-This query has no problem in AWS rds - MySQL 5.7.x.
+This query has no problem in AWS rds - MySQL 5.7.x. 
 
     select * from PRODUCT where (product_id, product_type) in ((1, 'p'), (2, 'd'));
-    The plan used the product index.
 
-The plan is :
+The plan is like this. a index is used.
 
     id	select_type	table	partitions	type	possible_keys	key	key_len	ref	rows	filtered	Extra
     ---
